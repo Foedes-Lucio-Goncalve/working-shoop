@@ -3,10 +3,20 @@ package com.educandoWeb.curso.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.aot.generate.GeneratedTypeReference;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	private String Nome;
 	private String Email;
