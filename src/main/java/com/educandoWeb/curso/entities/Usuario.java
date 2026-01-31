@@ -1,16 +1,18 @@
 package com.educandoWeb.curso.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
-import org.springframework.aot.generate.GeneratedTypeReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
+// @Table(name = "tb-Usuario) // se o nome da tabela der conflito com palavras reservadas use esse commando
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -22,6 +24,9 @@ public class Usuario implements Serializable{
 	private String Email;
 	private String Telefone;
 	private String Password;
+	
+	@OneToMany(mappedBy = "Cliente")
+	private List<Pedido> Pedido = new ArrayList<>();
 	
 	public Usuario() {
 		
@@ -75,6 +80,9 @@ public class Usuario implements Serializable{
 	public void setPassword(String password) {
 		Password = password;
 	}
+	public List<Pedido> getPedido() {
+		return Pedido;
+	}
 
 	@Override
 	public int hashCode() {
@@ -98,6 +106,10 @@ public class Usuario implements Serializable{
 		return "Usuario [Id=" + Id + ", Nome=" + Nome + ", Email=" + Email + ", Telefone=" + Telefone + ", Password="
 				+ Password + "]";
 	}
+
+	
+
+	
 
 	
 	
