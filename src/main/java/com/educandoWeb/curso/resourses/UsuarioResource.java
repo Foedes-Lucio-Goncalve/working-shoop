@@ -1,20 +1,36 @@
 package com.educandoWeb.curso.resourses;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.educandoWeb.curso.entities.Usuario;
+import com.educandoWeb.curso.services.ServicoUsuario;
 
 @RestController
 @RequestMapping(value = "/Usuario")
 public class UsuarioResource {
 	
+	@Autowired   // para o springer fazer a injecao de depencia
+	private ServicoUsuario service;
+	
 	@GetMapping
-	public ResponseEntity<Usuario> finAll()
+	public ResponseEntity<List<Usuario>> finAll()
 	{
-		Usuario user = new Usuario(1L, "lucio","lucio@gmail.com", "11111", "1234567");
+		List<Usuario> user = service.findAll();
+		
+		return ResponseEntity.ok().body(user);
+	}
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Usuario> finById(@PathVariable  Long id)
+	{
+		Usuario user = service.findById(id);
+		
 		return ResponseEntity.ok().body(user);
 	}
 
