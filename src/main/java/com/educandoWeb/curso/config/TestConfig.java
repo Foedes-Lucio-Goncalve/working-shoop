@@ -1,5 +1,6 @@
 package com.educandoWeb.curso.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.educandoWeb.curso.entities.Pedido;
 import com.educandoWeb.curso.entities.Usuario;
+import com.educandoWeb.curso.repositores.RepositorioPedido;
 import com.educandoWeb.curso.repositores.RepositorioUsuario;
 
 @Configuration
@@ -16,13 +19,21 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private RepositorioUsuario usarioR;
+	
+	@Autowired
+	private RepositorioPedido pedidoR;
 
 	@Override
 	public void run(String... args) throws Exception {
 		Usuario u1 = new Usuario(null, "pedro","pedro@gmail.com","111111","1234");
 		Usuario u2 = new Usuario(null, "pedro","pedro@gmail.com","111111","1234");
 		
+		Pedido p1 = new Pedido(null, Instant.parse("2026-01-01T15:47:07Z"),u1); 
+		Pedido p2 = new Pedido(null, Instant.parse("2026-01-31T17:18:07Z"),u2);
+		Pedido p3 = new Pedido(null, Instant.parse("2026-01-11T16:48:07Z"),u1);
+		
 		usarioR.saveAll(Arrays.asList(u1,u2));
+		pedidoR.saveAll(Arrays.asList(p1,p2,p3));
 		
 	}
 

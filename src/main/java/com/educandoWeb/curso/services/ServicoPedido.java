@@ -4,27 +4,25 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.stereotype.Service;
 
-import com.educandoWeb.curso.entities.Usuario;
-import com.educandoWeb.curso.repositores.RepositorioUsuario;
+import com.educandoWeb.curso.entities.Pedido;
+import com.educandoWeb.curso.repositores.RepositorioPedido;
 
 // @Repository registra repositorio
 //@Component  // registra a classe como servico do spring e pode ser injetada automaticamente com autowrid
 @Service  // registra o servico
-public class ServicoUsuario {
+public class ServicoPedido {
 
 	@Autowired
-	private RepositorioUsuario repository;
+	private RepositorioPedido repository;
 	
-	public List<Usuario> findAll(){
+	public List<Pedido> findAll(){
 		return repository.findAll();
 	}
 	
-	public Usuario findById(Long id) {
-		Optional<Usuario> user = repository.findById(id);
-		return user.get();
+	public Pedido findById(Long id) {
+		Optional<Pedido> pedido = repository.findById(id);
+		return pedido.get();
 	}
 }

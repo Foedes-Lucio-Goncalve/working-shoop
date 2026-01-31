@@ -1,8 +1,11 @@
 package com.educandoWeb.curso.entities;
 
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import tools.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 @Entity
 // @Table(name = "tb-pedido") // se o nome da tabela der conflito com palavras reservadas use esse commando
@@ -22,11 +25,13 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern = "yyy-MM´dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant momento; // instant e a data M
 	
 	@ManyToOne  // para criar a chave estrangeira no pedido
 	@JoinColumn(name = "cliente-id")
-	private Usuario Cliente;
+	private Usuario cliente;
 	
 
 	public Pedido() {
@@ -36,7 +41,7 @@ public class Pedido implements Serializable {
 	public Pedido(Long id, Instant momento, Usuario cliente) {
 		this.id = id;
 		this.momento = momento;
-		Cliente = cliente;
+		this.cliente = cliente;
 	}
 
 	public Long getId() {
@@ -56,11 +61,11 @@ public class Pedido implements Serializable {
 	}
 
 	public Usuario getCliente() {
-		return Cliente;
+		return cliente;
 	}
 
 	public void setCliente(Usuario cliente) {
-		Cliente = cliente;
+		this.cliente = cliente;
 	}
 
 	@Override
@@ -82,7 +87,7 @@ public class Pedido implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + id + ", momento=" + momento + ", Cliente=" + Cliente + "]";
+		return "Pedido [id=" + id + ", momento=" + momento + ", Cliente=" + cliente + "]";
 	}
 	
 	
