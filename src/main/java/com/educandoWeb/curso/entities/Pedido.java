@@ -1,10 +1,10 @@
 package com.educandoWeb.curso.entities;
 
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.educandoWeb.curso.entities.enuns.PedidoStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -13,34 +13,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import tools.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 @Entity
 // @Table(name = "tb-pedido") // se o nome da tabela der conflito com palavras reservadas use esse commando
 public class Pedido implements Serializable {
 
-	
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern = "yyy-MM´dd'T'HH:mm:ss'Z'", timezone = "GMT")
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyy-MM´dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant momento; // instant e a data M
-	
-	@ManyToOne  // para criar a chave estrangeira no pedido
+
+	private Integer status;
+
+	@ManyToOne // para criar a chave estrangeira no pedido
 	@JoinColumn(name = "cliente-id")
 	private Usuario cliente;
-	
 
 	public Pedido() {
-		
+
 	}
 
-	public Pedido(Long id, Instant momento, Usuario cliente) {
+	public Pedido(Long id, Instant momento, PedidoStatus status, Usuario cliente) {
 		this.id = id;
 		this.momento = momento;
+		setPedidoStatus(status);
 		this.cliente = cliente;
 	}
 
@@ -68,6 +68,21 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 	}
 
+	
+
+	public PedidoStatus getStatus() {
+		return PedidoStatus.valueOf(status);
+	}
+
+	public void setPedidoStatus(PedidoStatus status) {
+		if (status != null) {
+			this.status = status.getCodigo();
+		}
+	}
+	
+	
+	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -89,8 +104,5 @@ public class Pedido implements Serializable {
 	public String toString() {
 		return "Pedido [id=" + id + ", momento=" + momento + ", Cliente=" + cliente + "]";
 	}
-	
-	
-	
-	
+
 }
