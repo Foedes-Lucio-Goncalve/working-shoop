@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.educandoWeb.curso.entities.Categoria;
-import com.educandoWeb.curso.entities.Usuario;
+
 import com.educandoWeb.curso.services.ServicoCategoria;
 
 @RestController
