@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.educandoWeb.curso.entities.Categoria;
 import com.educandoWeb.curso.entities.ItemPedido;
+import com.educandoWeb.curso.entities.Pagamento;
 import com.educandoWeb.curso.entities.Pedido;
 import com.educandoWeb.curso.entities.Produto;
 import com.educandoWeb.curso.entities.Usuario;
@@ -84,7 +85,9 @@ public class TestConfig implements CommandLineRunner {
 		
 		itemr.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 		
-		
+		Pagamento pagamento = new Pagamento(null,Instant.parse("2026-01-01T15:47:07Z"),p1);
+		p1.setPagamento(pagamento);
+		pedidoR.saveAll(Arrays.asList(p1));
 		
 	}
 }

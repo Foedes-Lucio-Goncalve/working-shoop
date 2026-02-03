@@ -9,13 +9,16 @@ import java.util.Set;
 import com.educandoWeb.curso.entities.enuns.PedidoStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 // @Table(name = "tb-pedido") // se o nome da tabela der conflito com palavras reservadas use esse commando
@@ -38,6 +41,9 @@ public class Pedido implements Serializable {
 	
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> items = new HashSet<>();
+	
+	@OneToOne(mappedBy = "pedido",cascade = CascadeType.ALL)
+		private Pagamento pagamento;
 
 	public Pedido() {
 
@@ -86,6 +92,15 @@ public class Pedido implements Serializable {
 		}
 	}
 	
+	
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
 	public Set<ItemPedido> getItems()
 	{
 		return items;
