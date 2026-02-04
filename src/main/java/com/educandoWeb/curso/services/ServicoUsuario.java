@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.educandoWeb.curso.entities.Usuario;
 import com.educandoWeb.curso.repositores.RepositorioUsuario;
+import com.educandoWeb.curso.services.exception.ResourceNotFoundException;
 
 // @Repository registra repositorio
 //@Component  // registra a classe como servico do spring e pode ser injetada automaticamente com autowrid
@@ -26,7 +27,8 @@ public class ServicoUsuario {
 	
 	public Usuario findById(Long id) {
 		Optional<Usuario> user = repository.findById(id);
-		return user.get();
+		//return user.get();
+		return user.orElseThrow(() -> new ResourceNotFoundException(id));     
 	}
 	public Usuario insert(Usuario obj) {
 		return repository.save(obj);
