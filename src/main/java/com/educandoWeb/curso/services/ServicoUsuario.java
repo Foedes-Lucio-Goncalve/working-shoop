@@ -15,51 +15,52 @@ import com.educandoWeb.curso.services.exception.ResourceNotFoundException;
 
 // @Repository registra repositorio
 //@Component  // registra a classe como servico do spring e pode ser injetada automaticamente com autowrid
-@Service  // registra o servico
+@Service // registra o servico
 public class ServicoUsuario {
 
 	@Autowired
 	private RepositorioUsuario repository;
-	
-	public List<Usuario> findAll(){
+
+	public List<Usuario> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public Usuario findById(Long id) {
 		Optional<Usuario> user = repository.findById(id);
-		//return user.get();
-		return user.orElseThrow(() -> new ResourceNotFoundException(id));     
+		// return user.get();
+		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
+
 	public Usuario insert(Usuario obj) {
 		return repository.save(obj);
 	}
-	
-	public void delete (Long id)
-	{
+
+	public void delete(Long id) {
 		try {
-		  repository.deleteById(id);
-		}
-		catch(EmptyResultDataAccessException e ){
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
-		}
-		catch(DataIntegrityViolationException e ){
+		} catch (DataIntegrityViolationException e) {
 			throw new DataBaseException(e.getMessage());
-		}
-		catch(RuntimeException e ) 
-		{
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 		}
 	}
-	public Usuario update (Long id,Usuario obj) {
-		Usuario entity = repository.getReferenceById(id);
-		updateData(entity ,obj);		
-		return repository.save(entity);
+
+	public Usuario update(Long id, Usuario obj) {
+		try {
+			Usuario entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Usuario entity, Usuario obj) {
 		entity.setNome(obj.getNome());
 		entity.setEmail(obj.getEmail());
 		entity.setTelefone(obj.getTelefone());
-		
+
 	}
 }
