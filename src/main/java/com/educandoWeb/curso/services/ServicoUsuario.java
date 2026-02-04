@@ -3,6 +3,7 @@ package com.educandoWeb.curso.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -29,5 +30,10 @@ public class ServicoUsuario {
 	}
 	public Usuario insert(Usuario obj) {
 		return repository.save(obj);
+	}
+	
+	public void delete (Long id)
+	{
+		  repository.deleteById(id);
 	}
 }
