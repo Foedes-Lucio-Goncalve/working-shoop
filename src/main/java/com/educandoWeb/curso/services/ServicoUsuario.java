@@ -3,14 +3,14 @@ package com.educandoWeb.curso.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.educandoWeb.curso.entities.Usuario;
 import com.educandoWeb.curso.repositores.RepositorioUsuario;
+import com.educandoWeb.curso.services.exception.DataBaseException;
 import com.educandoWeb.curso.services.exception.ResourceNotFoundException;
 
 // @Repository registra repositorio
@@ -36,7 +36,19 @@ public class ServicoUsuario {
 	
 	public void delete (Long id)
 	{
+		try {
 		  repository.deleteById(id);
+		}
+		catch(EmptyResultDataAccessException e ){
+			throw new ResourceNotFoundException(id);
+		}
+		catch(DataIntegrityViolationException e ){
+			throw new DataBaseException(e.getMessage());
+		}
+		catch(RuntimeException e ) 
+		{
+			e.printStackTrace();
+		}
 	}
 	public Usuario update (Long id,Usuario obj) {
 		Usuario entity = repository.getReferenceById(id);
